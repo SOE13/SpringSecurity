@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
 <body>
 <h1>Hello SpringSecurity</h1>
-<a th:href="@{/teacher/teacherPage}">go teacher page</a>
+<a sec:authorize="hasRole('Teacher')" th:href="@{/teacher/teacherPage}">go teacher page</a>
 <a th:href="@{/student/page}">go student page</a>
 </body>
 </html>
