@@ -10,5 +10,10 @@ public class WelcomeController {
 	public String welcome() {
 		return "index";
 	}
+	
+	@GetMapping("/loginPage")
+	public String login() {
+		return "login";
+	}
 
 }
