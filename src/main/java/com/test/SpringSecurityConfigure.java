@@ -1,5 +1,7 @@
 package com.test;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +18,9 @@ public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private BCryptPasswordEncoder encode;
 	
+	@Autowired
+	private DataSource dataSource;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").hasAnyRole("Teacher","Student")
@@ -26,10 +31,13 @@ public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().passwordEncoder(encode)
-		.withUser("admin").password(encode.encode("admin")).roles("Teacher");
-		auth.inMemoryAuthentication().passwordEncoder(encode)
-		.withUser("student").password(encode.encode("student")).roles("Student");
+//		auth.inMemoryAuthentication().passwordEncoder(encode)
+//		.withUser("admin").password(encode.encode("admin")).roles("Teacher");
+//		auth.inMemoryAuthentication().passwordEncoder(encode)
+//		.withUser("student").password(encode.encode("student")).roles("Student");
+		auth.jdbcAuthentication().passwordEncoder(encode).dataSource(dataSource)
+		.usersByUsernameQuery("select user,password,enable from login where user=?")
+		.authoritiesByUsernameQuery("select user,role from login where user=?");
 		
 	}
 	
@@ -40,7 +48,7 @@ public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter{
 	
 	public static void main(String[] args) {
 		BCryptPasswordEncoder en=new BCryptPasswordEncoder();
-		System.out.println(en.encode("admin"));
+		System.out.println(en.encode("user"));
 	}
 	
 
