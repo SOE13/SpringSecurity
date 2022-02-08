@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter{
 	
 
+
 	@Autowired
 	private BCryptPasswordEncoder encode;
 	
@@ -20,7 +21,7 @@ public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests().antMatchers("/").hasAnyRole("Teacher","Student")
 					.antMatchers("/teacher/**").hasRole("Teacher")
 					.antMatchers("/student/**").hasAnyRole("Teacher","Student")
-					.and().formLogin().and().logout();
+					.and().formLogin().loginPage("/login").defaultSuccessUrl("/").and().logout();
 	}
 	
 	@Override
@@ -29,6 +30,7 @@ public class SpringSecurityConfigure extends WebSecurityConfigurerAdapter{
 		.withUser("admin").password(encode.encode("admin")).roles("Teacher");
 		auth.inMemoryAuthentication().passwordEncoder(encode)
 		.withUser("student").password(encode.encode("student")).roles("Student");
+		
 	}
 	
 	@Bean

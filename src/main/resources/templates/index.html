@@ -9,5 +9,8 @@
 <h1 class="text-center">Hello SpringSecurity</h1>
 <a sec:authorize="hasRole('Teacher')" th:href="@{/teacher/teacherPage}">go teacher page</a>
 <a th:href="@{/student/page}">go student page</a>
+<form th:action="@{/logout}" method="post">
+<input type="submit" value="Logout" class="btn btn-danger">
+</form>
 </body>
 </html>

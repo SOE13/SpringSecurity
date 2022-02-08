@@ -11,7 +11,7 @@ public class WelcomeController {
 		return "index";
 	}
 	
-	@GetMapping("/loginPage")
+	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
